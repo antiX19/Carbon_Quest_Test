@@ -57,7 +57,7 @@ public class BoardView extends View {
         // Set default player names
         playerNames = new String[]{"Luffy", "Zorro"};
 
-        setPlayerPositions(4, 49, 66);
+        setPlayerPositions(24, 23, 22);
     }
 
     public void setPlayerPositions(int... positions) {
