@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/homepagebg">
+
+    <ImageButton
+        android:id="@+id/display_settings"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_settings"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/settings"
+        android:padding="12dp"
+        android:layout_margin="16dp"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"/>
+
+    <ImageView
+        android:id="@+id/game_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/display_settings"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="229dp"
+        android:src="@drawable/homepagetitle" />
+
+    <Button
+        android:id="@+id/playButton"
+        android:layout_width="149dp"
+        android:layout_height="87dp"
+        android:layout_below="@+id/game_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="#00000000"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/jouer"
+        android:textAllCaps="false"
+        android:textSize="30sp"
+        android:textStyle="bold"
+     />
+
+    <ToggleButton
+        android:id="@+id/toggleMusicButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/music_on_image"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_music_on"
+        android:visibility="gone"
+        android:layout_toLeftOf="@id/display_settings"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dp"/>
+
+    <!-- Image représentant l'état de la musique en sourdine -->
+    <ImageView
+        android:id="@+id/music_off_image"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="347dp"
+        android:layout_toStartOf="@+id/display_settings"
+        android:contentDescription="@string/musicoffbutton"
+        android:src="@drawable/ic_music_off"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_exit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/playButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="8dp"
+        android:focusable="true"
+        android:onClick="exitApp"
+        android:text="@string/sortie"
+        android:background="#00000000"
+        android:clickable="true"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:textStyle="bold"
+         />
+
+
+</RelativeLayout>

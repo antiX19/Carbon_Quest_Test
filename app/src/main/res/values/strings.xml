@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">CarbonQUest</string>
+    <string name="carbon_quest">CARBON QUEST</string>
+    <string name="settings">settings</string>
+    <string name="sortie">Sortie</string>
+    <string name="todo">TODO</string>
+    <string name="bg">bg</string>
+    <string name="jouer">Jouer</string>
+    <string name="musicoffbutton" />
+</resources>
