@@ -48,15 +48,10 @@ public class BoardView extends View {
         bitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.plateau);
         paint = new Paint();
 
-        // Load player images (e.g., Luffy, Zorro)
         playerImages = new Bitmap[]{
-            BitmapFactory.decodeResource(getContext().getResources(), R.drawable.luffy),
-            BitmapFactory.decodeResource(getContext().getResources(), R.drawable.zorro)
+                BitmapFactory.decodeResource(getContext().getResources(), R.drawable.luffy),
+                BitmapFactory.decodeResource(getContext().getResources(), R.drawable.zorro)
         };
-
-        // Set default player names
-        playerNames = new String[]{"Luffy", "Zorro"};
-
         setPlayerPositions(24, 23, 22);
     }
 

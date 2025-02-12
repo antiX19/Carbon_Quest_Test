@@ -1,5 +1,6 @@
 package com.example.carbonquest;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private int playerTurn = 0;
     private Handler handler;
 
-    private int nombreDeJeux = 0;
+    private int nombreDeJoueurs = 0;
     private ArrayList<String> nomsJoueurs = new ArrayList<>();
 
     private ArrayList<Integer> imagesAttribuees = new ArrayList<>();
@@ -46,18 +47,12 @@ public class MainActivity extends AppCompatActivity {
     public static final String diceCharacters = "⚀⚁⚂⚃⚄⚅";
 
     private static final Random random = new Random();
-
-
-    // size of board image: 1920x1920
-    // bordure: 50x50
-
     private void throwDices() {
         for (int i=0; i < 2; i++)
             diceValues[i] = random.nextInt(6) + 1;
         //diceValues[0] = 6;
         //diceValues[1] = 1;
     }
-
     private int computePosition(int initialPosition, int diceSum) {
         if ((initialPosition + diceSum) <= 100)
             return initialPosition + diceSum;
@@ -67,14 +62,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void demanderNomsJoueurs() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Entrez les noms des joueurs");
+        builder.setTitle("Entrez le noms des joueurs");
 
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
 
-        // Création des champs de saisie pour chaque joueur
         final ArrayList<EditText> inputs = new ArrayList<>();
-        for (int i = 0; i < nombreDeJeux; i++) {
+        for (int i = 0; i < nombreDeJoueurs; i++) {
             EditText input = new EditText(this);
             input.setHint("Joueur " + (i + 1));
             layout.addView(input);
@@ -95,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                if (nomsJoueurs.size() == nombreDeJeux) {
+                if (nomsJoueurs.size() == nombreDeJoueurs) {
                     attribuerImagesAleatoires();
                     Toast.makeText(MainActivity.this, "Noms enregistrés", Toast.LENGTH_SHORT).show();
                     afficherPopupsJoueurs();
@@ -110,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
-                Toast.makeText(MainActivity.this, "Vous devez entrer les noms des joueurs", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Entrez les noms des joueurs", Toast.LENGTH_SHORT).show();
                 demanderNomsJoueurs();
             }
         });
@@ -160,30 +154,27 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
-    private void demanderNombreDeJeux() {
+    private void demanderNombreDeJoueurs() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Nombre de jeux");
+        builder.setTitle("Joueurs");
 
-        // Champ de texte pour entrer le nombre
         final EditText input = new EditText(this);
         input.setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
         builder.setView(input);
-
-        // Bouton de validation
         builder.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String valeur = input.getText().toString();
                 if (!valeur.isEmpty()) {
-                    nombreDeJeux = Integer.parseInt(valeur);
-                    playerPositions = new int[nombreDeJeux]; // Initialize the array with the correct size
-                    for (int i = 0; i < nombreDeJeux; i++) {
+                    nombreDeJoueurs = Integer.parseInt(valeur);
+                    playerPositions = new int[nombreDeJoueurs]; // Initialize the array with the correct size
+                    for (int i = 0; i < nombreDeJoueurs; i++) {
                         playerPositions[i] = 1; // Set each player's starting position to 1
                     }
                     demanderNomsJoueurs();
                 } else {
                     Toast.makeText(MainActivity.this, "Veuillez entrer un nombre valide", Toast.LENGTH_SHORT).show();
-                    demanderNombreDeJeux(); // Réouvrir si invalide
+                    demanderNombreDeJoueurs(); // Réouvrir si invalide
                 }
             }
         });
@@ -194,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
                 Toast.makeText(MainActivity.this, "Vous devez entrer un nombre de jeux", Toast.LENGTH_SHORT).show();
-                demanderNombreDeJeux();
+                demanderNombreDeJoueurs();
             }
         });
 
@@ -204,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void gotoDestination(int currentPosition, int finalDestination, boolean fast) {
         playerPositions[playerTurn] = currentPosition;
-        BoardView boardView = findViewById(R.id.boardView);
+        BoardView boardView = findViewById(R.id.boardview);
         boardView.setPlayerPositions(playerPositions);
 
         if (currentPosition != finalDestination) {
@@ -229,6 +220,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -241,9 +233,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         handler = new Handler();
-        demanderNombreDeJeux();
+        demanderNombreDeJoueurs();
 
-        BoardView boardView = findViewById(R.id.boardView);
+        BoardView boardView = findViewById(R.id.boardview);
 
         Button throwButton = findViewById(R.id.throwButton);
         throwButton.setOnClickListener(view -> {

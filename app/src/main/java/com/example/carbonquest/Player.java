@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Player {
-    private String name;
+    private final String name;
     private int carbonFootprint;
     private int ecoCash;
     private int position;
