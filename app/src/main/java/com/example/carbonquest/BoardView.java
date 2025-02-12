@@ -39,12 +39,20 @@ public class BoardView extends View {
     private Bitmap bitmap;
     private Paint paint;
 
+    private Bitmap[] playerImages = new Bitmap[0];
+    private String[] playerNames = new String[0];
+
     private int[] playerPositions = new int[0];
 
     private void init(AttributeSet attrs, int defStyle) {
         bitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.plateau);
         paint = new Paint();
-        setPlayerPositions(4, 49, 66);
+
+        playerImages = new Bitmap[]{
+                BitmapFactory.decodeResource(getContext().getResources(), R.drawable.luffy),
+                BitmapFactory.decodeResource(getContext().getResources(), R.drawable.zorro)
+        };
+        setPlayerPositions(24, 23, 22);
     }
 
     public void setPlayerPositions(int... positions) {
@@ -52,6 +60,15 @@ public class BoardView extends View {
         invalidate(); // refresh the display
     }
 
+    public void setPlayerNames(String... names) {
+        playerNames = names;
+        invalidate(); // Refresh the display
+    }
+
+    public void setPlayerImages(Bitmap... images) {
+        playerImages = images;
+        invalidate(); // Refresh the display
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -70,8 +87,21 @@ public class BoardView extends View {
             // Log the values of x and y
             Log.d("BoardView", "Player " + i + " - Position: " + position + ", X: " + x + ", Y: " + y);
 
-            paint.setColor(PLAYER_COLORS[i]);
-            canvas.drawCircle(x, y, canvas.getWidth() / 40, paint); // Adjust the pawn size
+            // Draw player image instead of circle
+            if (i < playerImages.length) {
+                Bitmap playerImage = playerImages[i];
+                int imageSize = canvas.getWidth() / 15; // Adjust image size
+                Rect imageRect = new Rect(x - imageSize / 2, y - imageSize / 2, x + imageSize / 2, y + imageSize / 2);
+                canvas.drawBitmap(playerImage, null, imageRect, paint);
+            }
+
+            // Draw player card (name)
+            if (i < playerNames.length) {
+                paint.setColor(Color.BLACK);
+                paint.setTextSize(canvas.getWidth() / 30); // Adjust text size
+                canvas.drawText(playerNames[i], x, y + canvas.getWidth() / 20, paint); // Position text below the image
+            }
+
             i++;
         }
     }
