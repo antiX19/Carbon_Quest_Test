@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private int[] diceValues = new int[]{-1, -1};
     private int[] playerPositions = new int[2];
     private int playerTurn = 0; // 0 pour joueur 1, 1 pour joueur 2
-    private Random random = new Random();
+    private Random random = new Random(System.currentTimeMillis());
     private Handler handler;
     private ImageButton fullLogButtonPlayer1;
     private ImageButton fullLogButtonPlayer2;
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         int playerPositionBefore = playerPositions[playerIndex];
         String playerName = "Joueur " + (playerIndex + 1);
 
-        String logMessageBefore = playerName + " - Before the action:\\\\\\n" +
+        String logMessageBefore = playerName + " - Before the action:\\\\\\\n" +
                 "Eco-Zone : " + playerPositionBefore;
 
         int dice1 = random.nextInt(6) + 1;
@@ -99,14 +99,14 @@ public class MainActivity extends AppCompatActivity {
         int newPosition = (playerPositions[playerIndex] + diceSum) % 32; // Ensure board size is eco-themed
         playerPositions[playerIndex] = newPosition;
 
-        String logMessageAfter = playerName + " - After the action:\\\\\\n" +
-                "Dice Roll : " + dice1 + " and " + dice2 + "\\\\\\n" +
+        String logMessageAfter = playerName + " - After the action:\\\\\\\n" +
+                "Dice Roll : " + dice1 + " and " + dice2 + "\\\\\\\n" +
                 "New Eco-Zone : " + newPosition;
 
         new AlertDialog.Builder(this)
                 .setView(popupView)
                 .setTitle("Log complet de " + playerName)
-                .setMessage(logMessageBefore + "\\\\\\n\\\\\\n" + logMessageAfter)
+                .setMessage(logMessageBefore + "\\\\\\\n\\\\\\\n" + logMessageAfter)
                 .setPositiveButton("OK", null)
                 .show();
     }
