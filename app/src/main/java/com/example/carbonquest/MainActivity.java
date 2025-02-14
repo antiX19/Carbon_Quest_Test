@@ -1,5 +1,6 @@
 package com.example.carbonquest;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -18,8 +19,8 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
     private int[] diceValues = new int[]{-1, -1};
     private int[] playerPositions = new int[2];
-    private int playerTurn = 0; // 0 pour joueur 1, 1 pour joueur 2
-    private Random random = new Random();
+    private Random random = new Random(System.currentTimeMillis());
+    private int playerTurn = 0;
     private Handler handler;
     private ImageButton fullLogButtonPlayer1;
     private ImageButton fullLogButtonPlayer2;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView player1TurnIndicator, player2TurnIndicator;
     private Button rollDiceButtonPlayer1, rollDiceButtonPlayer2;
 
+    @SuppressLint("SetTextI18n")
     private void init(){
         boardView = findViewById(R.id.boardview);
         rollDiceButtonPlayer1 = findViewById(R.id.rollDiceButtonPlayer1);
@@ -43,20 +45,6 @@ public class MainActivity extends AppCompatActivity {
         player2Role = findViewById(R.id.player2Role);
         fullLogButtonPlayer1 = findViewById(R.id.fullLogButtonPlayer1);
         fullLogButtonPlayer2 = findViewById(R.id.fullLogButtonPlayer2);
-
-        // Vérification pour éviter les crashes si les boutons ne sont pas trouvés
-        if (fullLogButtonPlayer1 != null) {
-            fullLogButtonPlayer1.setOnClickListener(view -> onFullLogClickPlayer(0));
-        } else {
-            Log.e("MainActivity", "fullLogButtonPlayer1 est NULL");
-        }
-
-        if (fullLogButtonPlayer2 != null) {
-            fullLogButtonPlayer2.setOnClickListener(view -> onFullLogClickPlayer(1));
-        } else {
-            Log.e("MainActivity", "fullLogButtonPlayer2 est NULL");
-        }
-
         player1Role.setText("Player 1: Directrice");
         player2Role.setText("Player 2: Directrice");
         diceImage11.setImageResource(R.drawable.dice3d160);
@@ -75,11 +63,13 @@ public class MainActivity extends AppCompatActivity {
         handler = new Handler();
         init();
         updateTurnUI();
+        playerTurn = random.nextInt();
 
     }
     public void onFullLogClickPlayer(int playerIndex) {
         displayPlayerLog(playerIndex);
     }
+
     private void displayPlayerLog(int playerIndex) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -112,9 +102,6 @@ public class MainActivity extends AppCompatActivity {
     private void throwDices(int currentPlayer) {
         if (currentPlayer != playerTurn) return;
 
-        rollDiceButtonPlayer1.setVisibility(View.INVISIBLE);
-        rollDiceButtonPlayer2.setVisibility(View.INVISIBLE);
-
         for (int i=0; i < 2; i++)
             diceValues[i] = random.nextInt(6) + 1;
         int dicesum = diceValues[0] + diceValues[1];
@@ -133,8 +120,8 @@ public class MainActivity extends AppCompatActivity {
         if (currentPosition != finalDestination) {
             int intermediateDestination = (currentPosition % 40) + 1; // Move forward by 1 (Monopoly-style)
 
-            if (intermediateDestination > 32) {
-                intermediateDestination = intermediateDestination - 32;
+            if (intermediateDestination > 40) {
+                intermediateDestination = intermediateDestination - 40;
             }
 
             Log.d("BoardView", "intermediateDestination: " + intermediateDestination + ", finalDestination: " + finalDestination);
