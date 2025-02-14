@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CarbonQUest"
         tools:targetApi="31">
+
+        <!-- Activité principale du jeu -->
+
         <activity
             android:name=".HomeActivity"
             android:exported="true">
@@ -21,7 +24,6 @@
             </intent-filter>
         </activity>
 
-        <!-- Activité principale du jeu -->
         <activity android:name=".MainActivity"
             android:exported="false"/>
 
