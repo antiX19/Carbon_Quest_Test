@@ -57,12 +57,12 @@ public class MainActivity extends AppCompatActivity {
             Log.e("MainActivity", "fullLogButtonPlayer2 est NULL");
         }
 
-        player1Role.setText("Player 1: Directrice");
-        player2Role.setText("Player 2: Directrice");
-        diceImage11.setImageResource(R.drawable.dice3d160);
-        diceImage12.setImageResource(R.drawable.dice3d160);
-        diceImage21.setImageResource(R.drawable.dice3d160);
-        diceImage22.setImageResource(R.drawable.dice3d160);
+        player1Role.setText("Player 1: Eco-Warrior");
+        player2Role.setText("Player 2: Carbon Tycoon");
+        diceImage11.setImageResource(R.drawable.eco_dice);
+        diceImage12.setImageResource(R.drawable.eco_dice);
+        diceImage21.setImageResource(R.drawable.eco_dice);
+        diceImage22.setImageResource(R.drawable.eco_dice);
 
         rollDiceButtonPlayer1.setOnClickListener(view -> throwDices(0));
         rollDiceButtonPlayer2.setOnClickListener(view -> throwDices(1));
@@ -88,24 +88,24 @@ public class MainActivity extends AppCompatActivity {
         int playerPositionBefore = playerPositions[playerIndex];
         String playerName = "Joueur " + (playerIndex + 1);
 
-        String logMessageBefore = playerName + " - Avant l'action :\n" +
-                "Position : " + playerPositionBefore;
+        String logMessageBefore = playerName + " - Before the action:\\n" +
+                "Eco-Zone : " + playerPositionBefore;
 
         int dice1 = random.nextInt(6) + 1;
         int dice2 = random.nextInt(6) + 1;
         int diceSum = dice1 + dice2;
 
-        int newPosition = (playerPositions[playerIndex] + diceSum) % 32;
+        int newPosition = (playerPositions[playerIndex] + diceSum) % 32; // Ensure board size is eco-themed
         playerPositions[playerIndex] = newPosition;
 
-        String logMessageAfter = playerName + " - Après l'action :\n" +
-                "Lancer de dés : " + dice1 + " et " + dice2 + "\n" +
-                "Nouvelle position : " + newPosition;
+        String logMessageAfter = playerName + " - After the action:\\n" +
+                "Dice Roll : " + dice1 + " and " + dice2 + "\\n" +
+                "New Eco-Zone : " + newPosition;
 
         new AlertDialog.Builder(this)
                 .setView(popupView)
                 .setTitle("Log complet de " + playerName)
-                .setMessage(logMessageBefore + "\n\n" + logMessageAfter)
+                .setMessage(logMessageBefore + "\\n\\n" + logMessageAfter)
                 .setPositiveButton("OK", null)
                 .show();
     }
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         int dicesum = diceValues[0] + diceValues[1];
         Toast.makeText(this, "Joueur " + (playerTurn + 1) + " a lancé : " + dicesum, Toast.LENGTH_SHORT).show();
 
-        int newPosition = (playerPositions[playerTurn] + dicesum) % 40;
+        int newPosition = (playerPositions[playerTurn] + dicesum) % 32; // Align with eco-themed board size
         gotoDestination(playerPositions[playerTurn], newPosition,false);
         boardView.setPlayerPositions(playerPositions);
         updateTurnUI();
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                 diceDrawable = R.drawable.dice6;
                 break;
             default:
-                diceDrawable = R.drawable.dice3d160;
+                diceDrawable = R.drawable.eco_dice;
         }
         diceImage.setImageResource(diceDrawable);
     }
