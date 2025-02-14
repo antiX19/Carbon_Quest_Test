@@ -52,8 +52,6 @@ public class MainActivity extends AppCompatActivity {
         diceImage21.setImageResource(R.drawable.dice3d160);
         diceImage22.setImageResource(R.drawable.dice3d160);
 
-        rollDiceButtonPlayer1.setOnClickListener(view -> throwDices(0));
-        rollDiceButtonPlayer2.setOnClickListener(view -> throwDices(1));
     }
 
     @Override
@@ -64,13 +62,16 @@ public class MainActivity extends AppCompatActivity {
         init();
         updateTurnUI();
         playerTurn = random.nextInt();
-
+        fullLogButtonPlayer1.setOnClickListener(view -> onFullLogClickPlayer(0));
+        fullLogButtonPlayer2.setOnClickListener(view -> onFullLogClickPlayer(1));
+        rollDiceButtonPlayer1.setOnClickListener(view -> throwDices(0));
+        rollDiceButtonPlayer2.setOnClickListener(view -> throwDices(1));
     }
     public void onFullLogClickPlayer(int playerIndex) {
         displayPlayerLog(playerIndex);
     }
 
-    private void displayPlayerLog(int playerIndex) {
+    private void displayPlayerLog(int playerIndex, int dice1, int dice2) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         View popupView = inflater.inflate(R.layout.infopopup, null);
@@ -81,12 +82,9 @@ public class MainActivity extends AppCompatActivity {
         String logMessageBefore = playerName + " - Avant l'action :\n" +
                 "Position : " + playerPositionBefore;
 
-        int dice1 = random.nextInt(6) + 1;
-        int dice2 = random.nextInt(6) + 1;
         int diceSum = dice1 + dice2;
 
         int newPosition = (playerPositions[playerIndex] + diceSum) % 32;
-        playerPositions[playerIndex] = newPosition;
 
         String logMessageAfter = playerName + " - Après l'action :\n" +
                 "Lancer de dés : " + dice1 + " et " + dice2 + "\n" +
