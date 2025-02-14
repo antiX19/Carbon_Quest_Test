@@ -1,48 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <TextView
-        android:id="@+id/diceView"
-        android:layout_width="0dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp">
+    <!-- Player 1 Layout -->
+    <LinearLayout
+        android:id="@+id/player1_zone"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:text="TextView"
-        android:textSize="48sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/throwButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/throwButton" />
+        android:orientation="horizontal"
+        android:padding="8dp">
 
-    <Button
-        android:id="@+id/throwButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginRight="8dp"
-        android:text="Throw"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <Button
+            android:id="@+id/rollDiceButtonPlayer1"
+            android:layout_width="49dp"
+            android:layout_height="35dp"
+            android:text="Throw"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/diceImage11"
+            android:layout_width="11dp"
+            android:layout_height="46dp"
+            android:layout_weight="1"
+            android:visibility="visible"
+            app:srcCompat="@drawable/dice3d160" />
+
+        <ImageView
+            android:id="@+id/diceImage12"
+            android:layout_width="11dp"
+            android:layout_height="46dp"
+            android:layout_weight="1"
+            android:visibility="visible"
+            app:srcCompat="@drawable/dice3d160" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/luffy" />
+
+        <ImageView
+            android:id="@+id/player1_turn_indicator"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/your_turn"
+            android:visibility="invisible" />
+        <ImageButton
+            android:id="@+id/fullLogButtonPlayer1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="Afficher le journal complet"
+            android:src="@drawable/ic_log"
+            android:scaleType="centerInside" />
+
+    </LinearLayout>
+    <!-- Board View -->
+    <!-- Player 2 Layout -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="41dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/player1Role"
+            android:layout_width="82dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Player 1: Role"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+    </LinearLayout>
 
     <com.example.carbonquest.BoardView
-        android:id="@+id/boardView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toTopOf="@+id/throwButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.652"
-        app:layout_constraintDimensionRatio="1:1"
-        app:srcCompat="@drawable/plateau"
-        tools:srcCompat="@drawable/plateau" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:id="@+id/boardview"
+        android:layout_width="wrap_content"
+        android:layout_height="388dp"
+        android:layout_marginVertical="16dp"
+        android:layout_weight="0" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/player2Role"
+            android:layout_width="81dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Player 2: Role"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/player2_zone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <Button
+            android:id="@+id/rollDiceButtonPlayer2"
+            android:layout_width="56dp"
+            android:layout_height="35dp"
+            android:text="Throw"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/diceImage21"
+            android:layout_width="23dp"
+            android:layout_height="51dp"
+            android:layout_weight="1"
+            android:visibility="visible"
+            app:srcCompat="@drawable/dice3d160" />
+
+        <ImageView
+            android:id="@+id/diceImage22"
+            android:layout_width="23dp"
+            android:layout_height="51dp"
+            android:layout_weight="1"
+            android:visibility="visible"
+            app:srcCompat="@drawable/dice3d160" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/luffy" />
+
+        <ImageView
+            android:id="@+id/player2_turn_indicator"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/your_turn"
+            android:visibility="invisible" />
+
+        <ImageButton
+            android:id="@+id/fullLogButtonPlayer2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="Afficher le journal complet"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_log" />
+
+    </LinearLayout>
+</LinearLayout>
