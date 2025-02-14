@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         handler = new Handler();
         init();
+        playerTurn = random.nextInt(2); // Randomly set starting player (0 or 1)
         updateTurnUI();
 
     }
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         int playerPositionBefore = playerPositions[playerIndex];
         String playerName = "Joueur " + (playerIndex + 1);
 
-        String logMessageBefore = playerName + " - Before the action:\\\\\n" +
+        String logMessageBefore = playerName + " - Before the action:\\\\\\n" +
                 "Eco-Zone : " + playerPositionBefore;
 
         int dice1 = random.nextInt(6) + 1;
@@ -98,14 +99,14 @@ public class MainActivity extends AppCompatActivity {
         int newPosition = (playerPositions[playerIndex] + diceSum) % 32; // Ensure board size is eco-themed
         playerPositions[playerIndex] = newPosition;
 
-        String logMessageAfter = playerName + " - After the action:\\\\\n" +
-                "Dice Roll : " + dice1 + " and " + dice2 + "\\\\\n" +
+        String logMessageAfter = playerName + " - After the action:\\\\\\n" +
+                "Dice Roll : " + dice1 + " and " + dice2 + "\\\\\\n" +
                 "New Eco-Zone : " + newPosition;
 
         new AlertDialog.Builder(this)
                 .setView(popupView)
                 .setTitle("Log complet de " + playerName)
-                .setMessage(logMessageBefore + "\\\\\n\\\\\n" + logMessageAfter)
+                .setMessage(logMessageBefore + "\\\\\\n\\\\\\n" + logMessageAfter)
                 .setPositiveButton("OK", null)
                 .show();
     }
