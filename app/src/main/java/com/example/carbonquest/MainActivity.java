@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         int playerPositionBefore = playerPositions[playerIndex];
         String playerName = "Joueur " + (playerIndex + 1);
 
-        String logMessageBefore = playerName + " - Before the action:\\\\\\\n" +
+        String logMessageBefore = playerName + " - Before the action:\\\\\\\\n" +
                 "Eco-Zone : " + playerPositionBefore;
 
         int dice1 = random.nextInt(6) + 1;
@@ -99,14 +99,14 @@ public class MainActivity extends AppCompatActivity {
         int newPosition = (playerPositions[playerIndex] + diceSum) % 32; // Ensure board size is eco-themed
         playerPositions[playerIndex] = newPosition;
 
-        String logMessageAfter = playerName + " - After the action:\\\\\\\n" +
-                "Dice Roll : " + dice1 + " and " + dice2 + "\\\\\\\n" +
+        String logMessageAfter = playerName + " - After the action:\\\\\\\\n" +
+                "Dice Roll : " + dice1 + " and " + dice2 + "\\\\\\\\n" +
                 "New Eco-Zone : " + newPosition;
 
         new AlertDialog.Builder(this)
                 .setView(popupView)
                 .setTitle("Log complet de " + playerName)
-                .setMessage(logMessageBefore + "\\\\\\\n\\\\\\\n" + logMessageAfter)
+                .setMessage(logMessageBefore + "\\\\\\\\n\\\\\\\\n" + logMessageAfter)
                 .setPositiveButton("OK", null)
                 .show();
     }
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         boardView.setPlayerPositions(playerPositions);
 
         if (currentPosition != finalDestination) {
-            int intermediateDestination = (currentPosition % 40) + 1; // Move forward by 1 (Monopoly-style)
+            int intermediateDestination = (currentPosition % 32) + 1; // Move forward by 1 (Eco-themed board)
 
             if (intermediateDestination > 32) {
                 intermediateDestination = intermediateDestination - 32;
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
             rollDiceButtonPlayer2.setVisibility(View.INVISIBLE);
             player1TurnIndicator.setVisibility(View.VISIBLE);
             player2TurnIndicator.setVisibility(View.INVISIBLE);
-        } else {
+        } else if (playerTurn == 1) {
             rollDiceButtonPlayer1.setVisibility(View.INVISIBLE);
             rollDiceButtonPlayer2.setVisibility(View.VISIBLE);
             player1TurnIndicator.setVisibility(View.INVISIBLE);
