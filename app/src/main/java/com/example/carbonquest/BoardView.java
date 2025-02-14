@@ -1,114 +1,77 @@
 package com.example.carbonquest;
 
 import android.content.Context;
-import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.util.AttributeSet;
+import android.view.View;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
-import android.text.TextPaint;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.View;
 
 public class BoardView extends View {
+    private Bitmap boardBitmap;
+    private Paint paint;
+    private int[] playerPositions;
+    private int player1Position = 0;
+    private int player2Position = 0;
+    private Bitmap tokenPlayer1;
+    private Bitmap tokenPlayer2;
+
     public BoardView(Context context) {
         super(context);
-        init(null, 0);
+        init();
     }
 
     public BoardView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs, 0);
+        init();
     }
 
     public BoardView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init(attrs, defStyle);
+        init();
     }
-
-    public static final int[] PLAYER_COLORS = new int[] {
-            Color.BLACK,
-            Color.GREEN,
-            Color.RED
-    };
-
-    private Bitmap bitmap;
-    private Paint paint;
-
-    private Bitmap[] playerImages = new Bitmap[0];
-    private String[] playerNames = new String[0];
-
-    private int[] playerPositions = new int[0];
-
-    private void init(AttributeSet attrs, int defStyle) {
-        bitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.plateau);
+    private void init() {
+        boardBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.plateau);
         paint = new Paint();
+        tokenPlayer1 = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.zorro);
+        tokenPlayer2 = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.luffy);
+        tokenPlayer1 = Bitmap.createScaledBitmap(tokenPlayer1, tokenPlayer1.getWidth() / 2, tokenPlayer1.getHeight() / 2, true);
+        tokenPlayer2 = Bitmap.createScaledBitmap(tokenPlayer2, tokenPlayer2.getWidth() / 2, tokenPlayer2.getHeight() / 2, true);
+        playerPositions = new int[]{20, 20};
+        setPlayerPositions(playerPositions );
 
-        playerImages = new Bitmap[]{
-                BitmapFactory.decodeResource(getContext().getResources(), R.drawable.luffy),
-                BitmapFactory.decodeResource(getContext().getResources(), R.drawable.zorro)
-        };
-        setPlayerPositions(24, 23, 22);
-    }
-
-    public void setPlayerPositions(int... positions) {
-        playerPositions = positions;
-        invalidate(); // refresh the display
-    }
-
-    public void setPlayerNames(String... names) {
-        playerNames = names;
-        invalidate(); // Refresh the display
-    }
-
-    public void setPlayerImages(Bitmap... images) {
-        playerImages = images;
-        invalidate(); // Refresh the display
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Rect dest = new Rect(0, 0, canvas.getWidth(), canvas.getHeight());
-        canvas.drawBitmap(bitmap, null, dest, paint);
+        int left = canvas.getWidth();
+        int top = canvas.getHeight();
+        Rect dest = new Rect(0, 0, left, top);
+        canvas.drawBitmap(boardBitmap, null, dest, paint);
+        drawPlayerToken(canvas, player1Position, tokenPlayer1, dest);
+        drawPlayerToken(canvas, player2Position, tokenPlayer2, dest);
+        int[] coords1 = getScaledCenterCoordinates(player1Position, canvas.getWidth(), canvas.getHeight());
+        int[] coords2 = getScaledCenterCoordinates(player2Position, canvas.getWidth(), canvas.getHeight());
+        canvas.drawBitmap(tokenPlayer1, coords1[0] - tokenPlayer1.getWidth()/2, coords1[1] - tokenPlayer1.getHeight()/2, paint);
+        canvas.drawBitmap(tokenPlayer2, coords2[0] - tokenPlayer2.getWidth()/2, coords2[1] - tokenPlayer2.getHeight()/2, paint);
+    }
 
-        paint.setStyle(Paint.Style.FILL);
-        int i = 0;
-        for (int position : playerPositions) {
-            // Get the scaled center coordinates for the given position
-            int[] centerCoordinates = getScaledCenterCoordinates(position, canvas.getWidth(), canvas.getHeight());
-            int x = centerCoordinates[0];
-            int y = centerCoordinates[1];
+    public void setPlayerPositions(int[] positions) {
+        playerPositions = positions;
+        invalidate();
+    }
 
-            // Log the values of x and y
-            Log.d("BoardView", "Player " + i + " - Position: " + position + ", X: " + x + ", Y: " + y);
-
-            // Draw player image instead of circle
-            if (i < playerImages.length) {
-                Bitmap playerImage = playerImages[i];
-                int imageSize = canvas.getWidth() / 15; // Adjust image size
-                Rect imageRect = new Rect(x - imageSize / 2, y - imageSize / 2, x + imageSize / 2, y + imageSize / 2);
-                canvas.drawBitmap(playerImage, null, imageRect, paint);
-            }
-
-            // Draw player card (name)
-            if (i < playerNames.length) {
-                paint.setColor(Color.BLACK);
-                paint.setTextSize(canvas.getWidth() / 30); // Adjust text size
-                canvas.drawText(playerNames[i], x, y + canvas.getWidth() / 20, paint); // Position text below the image
-            }
-
-            i++;
+    private void drawPlayerToken(Canvas canvas, int position, Bitmap token, Rect dest) {
+        int[] coords = getCenterCoordinates(position);
+        if (coords != null) {
+            canvas.drawBitmap(token, coords[0] - token.getWidth() / 2, coords[1] - token.getHeight() / 2, paint);
         }
     }
 
-    // Helper method to get the scaled center coordinates for a given position
     private int[] getScaledCenterCoordinates(int position, int viewWidth, int viewHeight) {
-        // Reference dimensions (from Photoshop)
         int referenceWidth = 762 ; // Width of the Photoshop image
         int referenceHeight = 759; // Height of the Photoshop image
 
@@ -128,15 +91,10 @@ public class BoardView extends View {
         return new int[]{scaledX, scaledY};
     }
 
-
-    // Helper method to get the center coordinates for a given position
     private int[] getCenterCoordinates(int position) {
-        // Map each position to its center coordinates
-
-        //position = position %36;
         switch (position) {
+            default : return new int[]{700, 57};
             // Top side
-            default : return new int[]{65, 57};
             case 2: return new int[]{165, 57};
             case 3: return new int[]{236, 57};
             case 4: return new int[]{310, 57};
@@ -154,30 +112,24 @@ public class BoardView extends View {
             case 15: return new int[]{708, 523};
             case 16: return new int[]{708, 595};
             case 17: return new int[]{708, 700};
-            //case 18: return new int[]{605, 700};
-            case 18: return new int[]{605, 700}; // Bottom side, position 17
-            case 19: return new int[]{530, 700}; // Bottom side, position 18
-            case 20: return new int[]{458, 700}; // Bottom side, position 19
-            case 21: return new int[]{386, 700}; // Bottom side, position 20
-            case 22: return new int[]{310, 700}; // Bottom side, position 21
-            case 23: return new int[]{236, 700}; // Bottom side, position 22
-            case 24: return new int[]{165, 700}; // Bottom side, position 23
-            //case 24: return new int[]{65, 750};  // Bottom side, position 24
-
-            case 25: return new int[]{65, 700};   // Left side, position 25
-            case 26: return new int[]{65, 595};   // Left side, position 26
-            case 27: return new int[]{65, 523};   // Left side, position 27
-            case 28: return new int[]{65, 450};   // Left side, position 28
-            case 29: return new int[]{65, 375};   // Left side, position 29
-            case 30: return new int[]{65, 306};   // Left side, position 30
-            case 31: return new int[]{65, 228};   // Left side, position 31
-            case 32: return new int[]{65, 157};   // Left side, position 32
-
-            // Default case (if position is out of range)
-            //default: return new int[]{0, 0};
+            // Bottom side
+            case 18: return new int[]{605, 700};
+            case 19: return new int[]{530, 700};
+            case 20: return new int[]{458, 700};
+            case 21: return new int[]{386, 700};
+            case 22: return new int[]{310, 700};
+            case 23: return new int[]{236, 700};
+            case 24: return new int[]{165, 700};
+            // Left side
+            case 25: return new int[]{65, 700};
+            case 26: return new int[]{65, 595};
+            case 27: return new int[]{65, 523};
+            case 28: return new int[]{65, 450};
+            case 29: return new int[]{65, 375};
+            case 30: return new int[]{65, 306};
+            case 31: return new int[]{65, 228};
+            case 32: return new int[]{65, 157};
         }
     }
-
-    // Helper methods for calculating coordinates
 
 }
