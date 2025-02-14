@@ -32,19 +32,18 @@
 
     <Button
         android:id="@+id/playButton"
-        android:layout_width="149dp"
-        android:layout_height="87dp"
+        android:layout_width="272dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/game_name"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:background="#00000000"
         android:clickable="true"
         android:focusable="true"
-        android:text="@string/jouer"
+        android:text="Jouer 1v1"
         android:textAllCaps="false"
         android:textSize="30sp"
-        android:textStyle="bold"
-     />
+        android:textStyle="bold" />
 
     <ToggleButton
         android:id="@+id/toggleMusicButton"
