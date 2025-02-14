@@ -27,13 +27,12 @@ public class MainActivity extends AppCompatActivity {
     private TextView player1Role, player2Role;
     private ImageView diceImage11, diceImage12, diceImage21, diceImage22;
     private ImageView player1TurnIndicator, player2TurnIndicator;
-    private Button rollDiceButtonPlayer1, rollDiceButtonPlayer2, endTurnButtonPlayer1;
+    private Button rollDiceButtonPlayer1, rollDiceButtonPlayer2;
 
     private void init(){
         boardView = findViewById(R.id.boardview);
         rollDiceButtonPlayer1 = findViewById(R.id.rollDiceButtonPlayer1);
         rollDiceButtonPlayer2 = findViewById(R.id.rollDiceButtonPlayer2);
-        endTurnButtonPlayer1 = findViewById(R.id.endTurnButtonPlayer1);
         diceImage11 = findViewById(R.id.diceImage11);
         diceImage12 = findViewById(R.id.diceImage12);
         diceImage21 = findViewById(R.id.diceImage21);
@@ -67,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
         rollDiceButtonPlayer1.setOnClickListener(view -> throwDices(0));
         rollDiceButtonPlayer2.setOnClickListener(view -> throwDices(1));
-        endTurnButtonPlayer1.setOnClickListener(view -> endTurn(0));
     }
 
     @Override
@@ -90,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         int playerPositionBefore = playerPositions[playerIndex];
         String playerName = "Joueur " + (playerIndex + 1);
 
-        String logMessageBefore = playerName + " - Before the action:\\\\n" +
+        String logMessageBefore = playerName + " - Before the action:\\\\\n" +
                 "Eco-Zone : " + playerPositionBefore;
 
         int dice1 = random.nextInt(6) + 1;
@@ -100,14 +98,14 @@ public class MainActivity extends AppCompatActivity {
         int newPosition = (playerPositions[playerIndex] + diceSum) % 32; // Ensure board size is eco-themed
         playerPositions[playerIndex] = newPosition;
 
-        String logMessageAfter = playerName + " - After the action:\\\\n" +
-                "Dice Roll : " + dice1 + " and " + dice2 + "\\\\n" +
+        String logMessageAfter = playerName + " - After the action:\\\\\n" +
+                "Dice Roll : " + dice1 + " and " + dice2 + "\\\\\n" +
                 "New Eco-Zone : " + newPosition;
 
         new AlertDialog.Builder(this)
                 .setView(popupView)
                 .setTitle("Log complet de " + playerName)
-                .setMessage(logMessageBefore + "\\\\n\\\\n" + logMessageAfter)
+                .setMessage(logMessageBefore + "\\\\\n\\\\\n" + logMessageAfter)
                 .setPositiveButton("OK", null)
                 .show();
     }
@@ -159,13 +157,11 @@ public class MainActivity extends AppCompatActivity {
             rollDiceButtonPlayer2.setVisibility(View.INVISIBLE);
             player1TurnIndicator.setVisibility(View.VISIBLE);
             player2TurnIndicator.setVisibility(View.INVISIBLE);
-            endTurnButtonPlayer1.setVisibility(View.VISIBLE);
         } else {
             rollDiceButtonPlayer1.setVisibility(View.INVISIBLE);
             rollDiceButtonPlayer2.setVisibility(View.VISIBLE);
             player1TurnIndicator.setVisibility(View.INVISIBLE);
             player2TurnIndicator.setVisibility(View.VISIBLE);
-            endTurnButtonPlayer1.setVisibility(View.INVISIBLE);
         }
     }
     private void updateDiceImage(ImageView diceImage, int diceResult) {
